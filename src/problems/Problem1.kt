@@ -1,3 +1,7 @@
+package problems
+
+import kotlin.text.iterator
+
 class Solution {
     fun maxNumberOfBalloons(text: String): Int {
         val counts = IntArray(26)
