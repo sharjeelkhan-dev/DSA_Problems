@@ -37,7 +37,46 @@ To achieve the optimal **$O(\log(\min(m, n)))$** time complexity, a **Binary Sea
    * `maxLeftX <= minRightY` and `maxLeftY <= minRightX`
 3. **Median Calculation:** * If the combined length $(m + n)$ is **odd**, the median is the maximum element of the left halves: 
 
-$\max(\text{maxLeftX}, \text{maxLeftY})$.
+$$\max(\text{maxLeftX}, \text{maxLeftY})$$
+
    * If the combined length is **even**, the median is the average of the maximum of the left halves and the minimum of the right halves: 
    
-   $\frac{\max(\text{maxLeftX}, \text{maxLeftY}) + \min(\text{minRightX}, \text{minRightY})}{2.0}$.
+$$\frac{\max(\text{maxLeftX}, \text{maxLeftY}) + \min(\text{minRightX}, \text{minRightY})}{2.0}$$
+
+
+# Problem 03: LeetCode 10 - Regular Expression Matching
+
+## 📝 Problem Description
+
+Given an input string `s` and a pattern `p`, implement regular expression matching with support for `.` and `*` where:
+* `.` Matches any single character.
+* `*` Matches zero or more of the preceding element.
+
+Return a boolean indicating whether the matching covers the **entire** input string (not partial).
+
+### Constraints
+* `1 <= s.length <= 20`
+* `1 <= p.length <= 20`
+* `s` contains only lowercase English letters.
+* `p` contains only lowercase English letters, `.`, and `*`.
+* It is guaranteed for each appearance of the character `*`, there will be a previous valid character to match.
+
+## 💡 Algorithmic Approach
+
+To avoid exponential time complexity caused by redundant overlapping recursive paths, a **Bottom-Up Dynamic Programming (DP)** approach is utilized. We construct a 2D grid `dp` of size $(M + 1) \times (N + 1)$, where $M$ is the length of string `s` and $N$ is the length of pattern `p`. 
+
+Each cell `dp[i][j]` represents whether the prefix substring `s[0...i-1]` completely matches the prefix pattern `p[0...j-1]`.
+
+1. **Base Case Setup:** * An empty string matches an empty pattern: `dp[0][0] = true`.
+   * For patterns containing wildcards that can nullify characters (e.g., `a*` or `a*b*`), we look back 2 spaces in the grid to check for an empty string match: `dp[0][j] = dp[0][j - 2]`.
+2. **State Transitions:** For each character pair, we evaluate two main criteria:
+   * **Exact/Dot Match:** If `p[j - 1] == s[i - 1]` or `p[j - 1] == '.'`, the state is derived from the diagonal previous state: 
+     `dp[i][j] = dp[i - 1][j - 1]`
+   * **Asterisk Wildcard Match ('*'):** * **Case 1 (Zero occurrences):** Treat `*` as eliminating its preceding character. We look 2 steps behind in the pattern: `dp[i][j] = dp[i][j - 2]`.
+     * **Case 2 (One or more occurrences):** If the character preceding `*` matches the current string character (i.e., `p[j - 2] == s[i - 1]` or `p[j - 2] == '.'`), we retain the previous string matching state: `dp[i][j] = dp[i][j] || dp[i - 1][j]`.
+
+## 📊 Complexity Analysis
+
+* **Time Complexity:** $O(M \times N)$ — Where $M$ and $N$ are the lengths of `s` and `p`. Every cell in the $(M + 1) \times (N + 1)$ matrix is processed exactly once with $O(1)$ operations.
+* **Space Complexity:** $O(M \times N)$ — Required matrix allocations to maintain the boolean state table.
+
