@@ -80,3 +80,35 @@ Each cell `dp[i][j]` represents whether the prefix substring `s[0...i-1]` comple
 * **Time Complexity:** $O(M \times N)$ — Where $M$ and $N$ are the lengths of `s` and `p`. Every cell in the $(M + 1) \times (N + 1)$ matrix is processed exactly once with $O(1)$ operations.
 * **Space Complexity:** $O(M \times N)$ — Required matrix allocations to maintain the boolean state table.
 
+
+
+# Problem 04: LeetCode 23 - Merge k Sorted Lists
+
+## 📝 Problem Description
+You are given an array of `k` linked-lists `lists`, each linked-list is sorted in ascending order. Merge all the linked-lists into one sorted linked-list and return it.
+
+### Constraints
+* `k == lists.length`
+* `0 <= k <= 10^4`
+* `0 <= lists[i].length <= 500`
+* `-10^4 <= lists[i][j] <= 10^4`
+* `lists[i]` is sorted in ascending order.
+* The sum of `lists[i].length` will not exceed `10^4`.
+
+
+## 💡 Algorithmic Approach
+To merge multiple sorted lists optimally without redundant traversals, a **Min-Heap (Priority Queue)** approach is utilized. This allows us to dynamically fetch the minimum node across all active heads in $O(\log k)$ time.
+
+1. **Heap Initialization:** We initialize a Min-Heap (Priority Queue) comparing the integer values (`val`) of the `ListNode` elements:
+   $$a.val - b.val$$
+2. **First-Element Ingestion:** We add the head node of each of the $k$ lists into the Min-Heap (safely ignoring any `null` or empty lists).
+3. **Iterative Extraction and Re-insertion:**
+   * Extract (poll) the smallest node from the heap.
+   * Attach this smallest node to our running merged list's `tail`.
+   * If the extracted node has a valid `next` node in its original list, we push that next node back into the Min-Heap to keep the heap dynamically balanced.
+4. **Dummy Head Pointer:** A dummy node is initialized at the start to easily build and return the head of our newly sorted, merged linked list (`dummy.next`).
+
+
+## 📊 Complexity Analysis
+* **Time Complexity:** $O(N \log k)$ — Where $N$ is the total number of nodes across all $k$ linked lists. Each of the $N$ nodes is added to and removed from the priority queue exactly once. Since the heap size never exceeds $k$, each heap operation takes $O(\log k)$ time.
+* **Space Complexity:** $O(k)$ — The priority queue contains at most $k$ nodes (one representative head from each of the active linked lists) at any given point during execution.
