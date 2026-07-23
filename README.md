@@ -1,5 +1,4 @@
-# Problem 1
-# LeetCode 1189 - Maximum Number of Balloons
+# Problem 01: LeetCode 1189 - Maximum Number of Balloons
 
 ## 📝 Problem Description
 Given a string `text`, you want to use the characters of `text` to form as many instances of the word **"balloon"** as possible.
@@ -8,7 +7,7 @@ You can use each character in `text` **at most once**. Return the maximum number
 
 ---
 
-## 💡 Core Logic & Algorithm (The Bottleneck Concept)
+## 💡 Algorithmic Approach (The Bottleneck Concept)
 To form a single instance of the word **"balloon"**, we require a specific frequency of characters:
 * **'b'** $\rightarrow$ 1 required
 * **'a'** $\rightarrow$ 1 required
@@ -18,14 +17,24 @@ To form a single instance of the word **"balloon"**, we require a specific frequ
 
 The maximum number of complete words we can form is determined by the **limiting factor (bottleneck)**—the character that runs out first. Since the letters `'l'` and `'o'` appear twice in the target word, we must divide their total frequencies by 2 (using integer division) before finding the minimum constraint.
 
+---
 
-# Problem 02: Median of Two Sorted Arrays
+## 📊 Complexity Analysis
+
+* **Time Complexity:** $O(N)$ — Where $N$ is the length of the string `text`. We iterate through the string once to count character frequencies.
+* **Space Complexity:** $O(1)$ — A fixed-size array or hash map (size 26 for English alphabet) is used to store frequencies, requiring constant space.
+
+---
+
+# Problem 02: LeetCode 4 - Median of Two Sorted Arrays
 
 ## 📝 Problem Description
 
 Given two sorted arrays `nums1` and `nums2` of size `m` and `n` respectively, return the median of the two sorted arrays.
 
 The overall run time complexity must be **$O(\log(m+n))$**.
+
+---
 
 ## 💡 Algorithmic Approach
 
@@ -35,14 +44,23 @@ To achieve the optimal **$O(\log(\min(m, n)))$** time complexity, a **Binary Sea
 2. **Binary Partitioning:** We divide both arrays into a left half and a right half such that:
    * The total number of elements in the combined left halves equals the total elements in the combined right halves.
    * `maxLeftX <= minRightY` and `maxLeftY <= minRightX`
-3. **Median Calculation:** * If the combined length $(m + n)$ is **odd**, the median is the maximum element of the left halves: 
+3. **Median Calculation:** 
+   * If the combined length $(m + n)$ is **odd**, the median is the maximum element of the left halves: 
 
 $$\max(\text{maxLeftX}, \text{maxLeftY})$$
 
    * If the combined length is **even**, the median is the average of the maximum of the left halves and the minimum of the right halves: 
-   
+
 $$\frac{\max(\text{maxLeftX}, \text{maxLeftY}) + \min(\text{minRightX}, \text{minRightY})}{2.0}$$
 
+---
+
+## 📊 Complexity Analysis
+
+* **Time Complexity:** $O(\log(\min(M, N)))$ — Where $M$ and $N$ are the lengths of `nums1` and `nums2`. Binary search is applied strictly on the smaller array to optimize step count.
+* **Space Complexity:** $O(1)$ — Partition evaluation is performed in-place using pointers without extra memory allocations.
+
+---
 
 # Problem 03: LeetCode 10 - Regular Expression Matching
 
@@ -61,26 +79,32 @@ Return a boolean indicating whether the matching covers the **entire** input str
 * `p` contains only lowercase English letters, `.`, and `*`.
 * It is guaranteed for each appearance of the character `*`, there will be a previous valid character to match.
 
+---
+
 ## 💡 Algorithmic Approach
 
 To avoid exponential time complexity caused by redundant overlapping recursive paths, a **Bottom-Up Dynamic Programming (DP)** approach is utilized. We construct a 2D grid `dp` of size $(M + 1) \times (N + 1)$, where $M$ is the length of string `s` and $N$ is the length of pattern `p`. 
 
 Each cell `dp[i][j]` represents whether the prefix substring `s[0...i-1]` completely matches the prefix pattern `p[0...j-1]`.
 
-1. **Base Case Setup:** * An empty string matches an empty pattern: `dp[0][0] = true`.
+1. **Base Case Setup:** 
+   * An empty string matches an empty pattern: `dp[0][0] = true`.
    * For patterns containing wildcards that can nullify characters (e.g., `a*` or `a*b*`), we look back 2 spaces in the grid to check for an empty string match: `dp[0][j] = dp[0][j - 2]`.
 2. **State Transitions:** For each character pair, we evaluate two main criteria:
    * **Exact/Dot Match:** If `p[j - 1] == s[i - 1]` or `p[j - 1] == '.'`, the state is derived from the diagonal previous state: 
      `dp[i][j] = dp[i - 1][j - 1]`
-   * **Asterisk Wildcard Match ('*'):** * **Case 1 (Zero occurrences):** Treat `*` as eliminating its preceding character. We look 2 steps behind in the pattern: `dp[i][j] = dp[i][j - 2]`.
+   * **Asterisk Wildcard Match ('*'):** 
+     * **Case 1 (Zero occurrences):** Treat `*` as eliminating its preceding character. We look 2 steps behind in the pattern: `dp[i][j] = dp[i][j - 2]`.
      * **Case 2 (One or more occurrences):** If the character preceding `*` matches the current string character (i.e., `p[j - 2] == s[i - 1]` or `p[j - 2] == '.'`), we retain the previous string matching state: `dp[i][j] = dp[i][j] || dp[i - 1][j]`.
+
+---
 
 ## 📊 Complexity Analysis
 
-* **Time Complexity:** $O(M \times N)$ — Where $M$ and $N$ are the lengths of `s` and `p`. Every cell in the $(M + 1) \times (N + 1)$ matrix is processed exactly once with $O(1)$ operations.
-* **Space Complexity:** $O(M \times N)$ — Required matrix allocations to maintain the boolean state table.
+* **Time Complexity:** $O(M \times N)$ — Where $M$ and $N$ are the lengths of `s` and `p`. Every cell in the matrix is evaluated once in constant $O(1)$ time.
+* **Space Complexity:** $O(M \times N)$ — 2D array allocated to store matching states across string and pattern prefixes.
 
-
+---
 
 # Problem 04: LeetCode 23 - Merge k Sorted Lists
 
@@ -95,6 +119,7 @@ You are given an array of `k` linked-lists `lists`, each linked-list is sorted i
 * `lists[i]` is sorted in ascending order.
 * The sum of `lists[i].length` will not exceed `10^4`.
 
+---
 
 ## 💡 Algorithmic Approach
 To merge multiple sorted lists optimally without redundant traversals, a **Min-Heap (Priority Queue)** approach is utilized. This allows us to dynamically fetch the minimum node across all active heads in $O(\log k)$ time.
@@ -108,7 +133,49 @@ To merge multiple sorted lists optimally without redundant traversals, a **Min-H
    * If the extracted node has a valid `next` node in its original list, we push that next node back into the Min-Heap to keep the heap dynamically balanced.
 4. **Dummy Head Pointer:** A dummy node is initialized at the start to easily build and return the head of our newly sorted, merged linked list (`dummy.next`).
 
+---
 
 ## 📊 Complexity Analysis
-* **Time Complexity:** $O(N \log k)$ — Where $N$ is the total number of nodes across all $k$ linked lists. Each of the $N$ nodes is added to and removed from the priority queue exactly once. Since the heap size never exceeds $k$, each heap operation takes $O(\log k)$ time.
-* **Space Complexity:** $O(k)$ — The priority queue contains at most $k$ nodes (one representative head from each of the active linked lists) at any given point during execution.
+* **Time Complexity:** $O(N \log k)$ — Where $N$ is the total number of nodes across all $k$ linked lists. Each node is added and removed from the priority queue once, taking $O(\log k)$ time per insertion/extraction.
+* **Space Complexity:** $O(k)$ — The min-heap stores at most $k$ elements at any given point (one representative head node from each list).
+
+---
+
+# Problem 05: LeetCode 30 - Substring with Concatenation of All Words
+
+## 📝 Problem Description
+You are given a string `s` and an array of strings `words`. All the strings of `words` are of the **same length**.
+
+A **concatenated string** is a string that exactly contains all the strings of any permutation of `words` concatenated.
+
+Return an array of the starting indices of all the concatenated substrings in `s`. You can return the answer in **any order**.
+
+### Constraints
+* `1 <= s.length <= 10^4`
+* `1 <= words.length <= 5000`
+* `1 <= words[i].length <= 30`
+* `s` and `words[i]` consist of lowercase English letters.
+
+---
+
+## 💡 Algorithmic Approach
+
+To avoid the exponential overhead of checking string permutations, a **Fixed-Step Sliding Window** technique combined with **Frequency Hash Maps** is used.
+
+1. **Alignment Offsets:** Since every word in `words` has an identical length $K$, there are only $K$ distinct starting offsets ($0 \text{ to } K - 1$). Running a separate sliding window pass for each offset guarantees that every valid word alignment is checked without overlapping redundant computations.
+2. **Frequency Map Comparison:**
+   * Build a `target` frequency map storing the expected count of each word in `words`.
+   * For each offset pass, maintain a `cur` frequency map tracking word counts within the current sliding window.
+3. **Dynamic Window Adjustment:**
+   * Slide the window rightward by stepping $K$ characters at a time.
+   * If an extracted word exists in `target`, increment its count in `cur`.
+   * If a word's count exceeds its allowed target frequency, advance the `left` pointer in steps of $K$ to shrink the window until the frequency is balanced.
+   * If a word is not present in `target`, clear the current window state and reset `left = right`.
+4. **Result Capture:** When the window contains exactly $N$ valid words (`count == N`), the starting index `left` is recorded.
+
+---
+
+## 📊 Complexity Analysis
+
+* **Time Complexity:**: $O(|S| \times K)$ — Where $|S|$ is the length of string s and $K$ is the length of an individual word in words. There are $K$ offset iterations, and in each pass, every $K$-length substring chunk enters and exits the window at most once.
+* **Space Complexity:**: $O(N \times K)$ — Where $N$ is the total count of words in words and $K$ is the word length. Memory is allocated for storing word frequencies in hash maps (target and cur).
