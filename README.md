@@ -179,3 +179,38 @@ To avoid the exponential overhead of checking string permutations, a **Fixed-Ste
 
 * **Time Complexity:**: $O(|S| \times K)$ — Where $|S|$ is the length of string s and $K$ is the length of an individual word in words. There are $K$ offset iterations, and in each pass, every $K$-length substring chunk enters and exits the window at most once.
 * **Space Complexity:**: $O(N \times K)$ — Where $N$ is the total count of words in words and $K$ is the word length. Memory is allocated for storing word frequencies in hash maps (target and cur).
+
+
+# Problem 06: LeetCode 17 - Letter Combinations of a Phone Number
+
+## 📝 Problem Description  
+Given a string containing digits from 2-9 inclusive, return all possible letter combinations that the number could represent. Return the answer in any order.
+A mapping of digits to letters (just like on the telephone buttons) is given below. Note that 1 does not map to any letters.
+
+2: a, b, c
+3: d, e, f
+4: g, h, i
+5: j, k, l
+6: m, n, o
+7: p, q, r, s
+8: t, u, v
+9: w, x, y, z
+
+### Constraints
+0 <= digits.length <= 4
+digits[i] is a digit in the range ['2', '9'].
+
+## 💡 Algorithmic Approach
+To generate all possible permutations without redundant computations, a Backtracking (Depth-First Search) pattern is utilized.
+Mapping Setup: Store telephone keypad character mappings using an indexed array or hash map for $O(1)$ lookups.
+
+**Recursive Exploration:**
+Maintain a pointer index tracking the current target character in the digits string.
+Maintain a mutable string buffer (StringBuilder) to construct individual combinations sequentially.
+
+**Base Case:** When index == digits.length, the current path represents a valid full combination. Convert the buffer to a string and store it in the output list.
+
+📊 Complexity Analysis
+
+**Time Complexity:**: $O(4^N \times N)$ — Where $N$ is the length of digits. In the worst case (digits '7' or '9'), each digit expands into 4 candidate letters, yielding up to $4^N$ combinations. Constructing each string takes $O(N)$ time.
+**Space Complexity:** $O(N)$ — Where $N$ is the length of digits. The space is consumed by the recursion call stack and mutable string buffer up to a max depth of $N$ (excluding output list memory).
