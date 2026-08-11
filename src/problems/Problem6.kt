@@ -1,3 +1,7 @@
+package problems
+
+import kotlin.text.iterator
+
 class Problem6 {
 
     private val letters = arrayOf(
