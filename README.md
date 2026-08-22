@@ -219,5 +219,39 @@ Maintain a mutable string buffer (StringBuilder) to construct individual combina
 ## 📊 Complexity Analysis
 
 **Time Complexity:**: $O(4^N \times N)$ — Where $N$ is the length of digits. In the worst case (digits '7' or '9'), each digit expands into 4 candidate letters, yielding up to $4^N$ combinations. Constructing each string takes $O(N)$ time.
-
 **Space Complexity:** $O(N)$ — Where $N$ is the length of digits. The space is consumed by the recursion call stack and mutable string buffer up to a max depth of $N$ (excluding output list memory).
+
+---
+
+# Problem 07: LeetCode 24 - Swap Nodes in Pairs
+
+## 📝 Problem Description  
+Given a linked list, swap every two adjacent nodes and return its head. You must solve the problem without modifying the values in the list's nodes (i.e., only nodes themselves may be changed).
+
+### Constraints
+The number of nodes in the list is in the range [0, 100].
+0 <= Node.val <= 100.
+
+---
+
+## 💡 Algorithmic Approach
+To swap adjacent nodes without altering internal node values, we reorder the node pointer references iteratively using a Dummy Node pattern.
+
+**Dummy Node Setup::**
+Initialize a dummy node pointing to head and maintain a pointer current initialized to dummy. This gracefully handles boundary conditions, such as swapping the actual head node.
+
+**Pointer Swapping:** Traverse while current.next and current.next.next are both non-null.
+Identify first = current.next and second = current.next.next.
+Reassign references:
+first.next = second.next
+second.next = first
+current.next = second
+
+**Pointer Advancement:** Advance current two nodes forward to first for the next iteration step.
+
+---
+
+## 📊 Complexity Analysis
+
+**Time Complexity:**: $O(N)$ — Where $N$ is the total number of nodes in the linked list. Every node reference is updated in a single pass.
+**Space Complexity:** $O(1)$ — Pointer adjustments are performed in-place using constant auxiliary memory.
