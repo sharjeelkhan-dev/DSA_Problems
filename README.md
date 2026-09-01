@@ -177,11 +177,10 @@ To avoid the exponential overhead of checking string permutations, a **Fixed-Ste
 
 ## 📊 Complexity Analysis
 
-* **Time Complexity:**: $O(|S| \times K)$ — Where $|S|$ is the length of string s and $K$ is the length of an individual word in words. There are $K$ offset iterations, and in each pass, every $K$-length substring chunk enters and exits the window at most once.
-* **Space Complexity:**: $O(N \times K)$ — Where $N$ is the total count of words in words and $K$ is the word length. Memory is allocated for storing word frequencies in hash maps (target and cur).
-  
----
+* **Time Complexity:** $O(|S| \times K)$ — Where $|S|$ is the length of string s and $K$ is the length of an individual word in words. There are $K$ offset iterations, and in each pass, every $K$-length substring chunk enters and exits the window at most once.
+* **Space Complexity:** $O(N \times K)$ — Where $N$ is the total count of words in words and $K$ is the word length. Memory is allocated for storing word frequencies in hash maps (target and cur).
 
+---
 
 # Problem 06: LeetCode 17 - Letter Combinations of a Phone Number
 
@@ -199,27 +198,26 @@ A mapping of digits to letters (just like on the telephone buttons) is given bel
 9: w, x, y, z
 
 ### Constraints
-0 <= digits.length <= 4
-digits[i] is a digit in the range ['2', '9'].
+* `0 <= digits.length <= 4`
+* `digits[i]` is a digit in the range `['2', '9']`.
 
 ---
 
 ## 💡 Algorithmic Approach
 To generate all possible permutations without redundant computations, a Backtracking (Depth-First Search) pattern is utilized.
-Mapping Setup: Store telephone keypad character mappings using an indexed array or hash map for $O(1)$ lookups.
 
-**Recursive Exploration:**
-Maintain a pointer index tracking the current target character in the digits string.
-Maintain a mutable string buffer (StringBuilder) to construct individual combinations sequentially.
-
-**Base Case:** When index == digits.length, the current path represents a valid full combination. Convert the buffer to a string and store it in the output list.
+1. **Mapping Setup:** Store telephone keypad character mappings using an indexed array or hash map for $O(1)$ lookups.
+2. **Recursive Exploration:**
+   * Maintain a pointer index tracking the current target character in the digits string.
+   * Maintain a mutable string buffer (`StringBuilder`) to construct individual combinations sequentially.
+3. **Base Case:** When `index == digits.length`, the current path represents a valid full combination. Convert the buffer to a string and store it in the output list.
 
 ---
 
 ## 📊 Complexity Analysis
 
-**Time Complexity:**: $O(4^N \times N)$ — Where $N$ is the length of digits. In the worst case (digits '7' or '9'), each digit expands into 4 candidate letters, yielding up to $4^N$ combinations. Constructing each string takes $O(N)$ time.
-**Space Complexity:** $O(N)$ — Where $N$ is the length of digits. The space is consumed by the recursion call stack and mutable string buffer up to a max depth of $N$ (excluding output list memory).
+* **Time Complexity:** $O(4^N \times N)$ — Where $N$ is the length of digits. In the worst case (digits '7' or '9'), each digit expands into 4 candidate letters, yielding up to $4^N$ combinations. Constructing each string takes $O(N)$ time.
+* **Space Complexity:** $O(N)$ — Where $N$ is the length of digits. The space is consumed by the recursion call stack and mutable string buffer up to a max depth of $N$ (excluding output list memory).
 
 ---
 
@@ -229,29 +227,65 @@ Maintain a mutable string buffer (StringBuilder) to construct individual combina
 Given a linked list, swap every two adjacent nodes and return its head. You must solve the problem without modifying the values in the list's nodes (i.e., only nodes themselves may be changed).
 
 ### Constraints
-The number of nodes in the list is in the range [0, 100].
-0 <= Node.val <= 100.
+* The number of nodes in the list is in the range `[0, 100]`.
+* `0 <= Node.val <= 100`.
 
 ---
 
 ## 💡 Algorithmic Approach
 To swap adjacent nodes without altering internal node values, we reorder the node pointer references iteratively using a Dummy Node pattern.
 
-**Dummy Node Setup::**
-Initialize a dummy node pointing to head and maintain a pointer current initialized to dummy. This gracefully handles boundary conditions, such as swapping the actual head node.
-
-**Pointer Swapping:** Traverse while current.next and current.next.next are both non-null.
-Identify first = current.next and second = current.next.next.
-Reassign references:
-first.next = second.next
-second.next = first
-current.next = second
-
-**Pointer Advancement:** Advance current two nodes forward to first for the next iteration step.
+1. **Dummy Node Setup:** Initialize a dummy node pointing to head and maintain a pointer `current` initialized to `dummy`. This gracefully handles boundary conditions, such as swapping the actual head node.
+2. **Pointer Swapping:** Traverse while `current.next` and `current.next.next` are both non-null.
+   * Identify `first = current.next` and `second = current.next.next`.
+   * Reassign references:
+     * `first.next = second.next`
+     * `second.next = first`
+     * `current.next = second`
+3. **Pointer Advancement:** Advance `current` two nodes forward to `first` for the next iteration step.
 
 ---
 
 ## 📊 Complexity Analysis
 
-**Time Complexity:**: $O(N)$ — Where $N$ is the total number of nodes in the linked list. Every node reference is updated in a single pass.
-**Space Complexity:** $O(1)$ — Pointer adjustments are performed in-place using constant auxiliary memory.
+* **Time Complexity:** $O(N)$ — Where $N$ is the total number of nodes in the linked list. Every node reference is updated in a single pass.
+* **Space Complexity:** $O(1)$ — Pointer adjustments are performed in-place using constant auxiliary memory.
+
+---
+
+# Problem 08: LeetCode 8 - String to Integer (atoi)
+
+## 📝 Problem Description
+Implement the `myAtoi(string s)` function, which converts a string to a 32-bit signed integer.
+
+The algorithm for `myAtoi(string s)` is as follows:
+1. **Whitespace:** Ignore any leading whitespace (`" "`).
+2. **Signedness:** Determine the sign by checking if the next character is `'-'` or `'+'`. Assuming positivity if neither is present.
+3. **Conversion:** Read the integer by skipping leading zeros until a non-digit character is encountered or the end of the string is reached. If no digits were read, the result is `0`.
+4. **Rounding:** If the integer is out of the 32-bit signed integer range $[-2^{31}, 2^{31} - 1]$, clamp the integer so that it remains in the range. Specifically, integers less than $-2^{31}$ should be clamped to $-2^{31}$, and integers greater than $2^{31} - 1$ should be clamped to $2^{31} - 1$.
+
+### Constraints
+* `0 <= s.length <= 200`
+* `s` consists of English letters (lower-case and upper-case), digits (`0-9`), `' '`, `'+'`, `'-'`, and `'.'`.
+
+---
+
+## 💡 Algorithmic Approach
+
+To process the string predictably and adhere strictly to 32-bit integer boundaries, a sequential functional transformation pipeline is used:
+
+1. **Trimming Leading Spaces:** Remove leading whitespace using `trimStart()`. If the trimmed string is empty, return `0` immediately.
+2. **Sign Extraction:** Inspect the first character to determine if the multiplier is negative (`-1`) or positive (`1`), and adjust the starting index for digit parsing accordingly.
+3. **Sequential Digit Accumulation:** 
+   * Extract contiguous digits using `takeWhile { it.isDigit() }`.
+   * Accumulate digits using a 64-bit integer (`Long`) accumulator: `acc * 10 + (ch - '0')`.
+4. **Overflow and Boundary Clamping:** Clamp intermediate calculations against 32-bit signed limits (`Int.MAX_VALUE` and `Int.MIN_VALUE`) using `.coerceAtMost()` before applying sign adjustment and casting back to a 32-bit signed integer (`Int`).
+
+---
+
+## 📊 Complexity Analysis
+
+* **Time Complexity:**  $O(N)$ — Where $N$ is the length of the string s. Trimming, filtering continuous digit characters, and arithmetic reduction each require a single linear pass.
+* **Space Complexity:** $O(N)$ — In-memory string operations (trimStart, substring, and digit array extractions) create auxiliary string segments proportional to string length $N$.
+
+---
