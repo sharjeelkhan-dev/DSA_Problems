@@ -289,3 +289,36 @@ To process the string predictably and adhere strictly to 32-bit integer boundari
 * **Space Complexity:** $O(N)$ — In-memory string operations (trimStart, substring, and digit array extractions) create auxiliary string segments proportional to string length $N$.
 
 ---
+
+
+# Problem 09: LeetCode 52 - N-Queens II
+
+## 📝 Problem Description
+The n-queens puzzle is the problem of placing $n$ queens on an $n \times n$ chessboard such that no two queens attack each other.Given an integer $n$, return the number of distinct solutions to the n-queens puzzle.
+
+### Constraints
+1 <= n <= 9
+
+---
+
+## 💡 Algorithmic Approach
+
+To determine the total number of distinct valid queen placements without generating full board representations, a Backtracking approach with $O(1)$ state tracking is utilized.
+
+1. Row-by-Row Placement: Place exactly one queen per row (from row = 0 to n - 1), automatically eliminating horizontal row conflicts.
+2. $O(1)$ Attack Checking: Maintain three boolean tracking arrays to check whether placing a queen at cell (row, col) is safe in constant time:
+Columns: Tracked by index col.
+Main Diagonals ($\backslash$): Tracked by index row - col + n.
+Anti-Diagonals ($/$): Tracked by index row + col.
+
+3. Recursive Exploration: Recursively attempt placement row-by-row. When row == n, a complete valid placement is reached, incrementing the solution counter.
+4. Clean Scope: Encapsulating the backtracking within a local helper function avoids polluting class-level state and eliminates redundant function parameters.
+
+---
+
+## 📊 Complexity Analysis
+
+* **Time Complexity:**   $O(N!)$ — For the first row, there are $N$ choices, for the second at most $N-2$, and so on, bounded by $O(N!)$.
+* **Space Complexity:**  $O(N)$ — Memory is consumed by the recursion stack and the three boolean tracking arrays of size $O(N)$.
+
+---
