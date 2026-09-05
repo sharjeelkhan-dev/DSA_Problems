@@ -322,3 +322,46 @@ Anti-Diagonals ($/$): Tracked by index row + col.
 * **Space Complexity:**  $O(N)$ — Memory is consumed by the recursion stack and the three boolean tracking arrays of size $O(N)$.
 
 ---
+
+# Problem 10: LeetCode 45 - Jump Game II
+
+## 📝 Problem Description
+You are given a 0-indexed array of integers nums of length n. You are initially positioned at index 0.
+Each element nums[i] represents the maximum length of a forward jump from index i. In other words, if you are at index i, you can jump to any index (i + j) where:
+
+0 <= j <= nums[i]  
+i + j < n
+Return the minimum number of jumps to reach index n - 1. The test cases are generated such that you can reach index n - 1.
+
+### Constraints
+1 <= nums.length <= 10^4
+0 <= nums[i] <= 1000
+It's guaranteed that you can reach nums[n-1].
+
+---
+
+## 💡 Algorithmic Approach
+
+To find the minimum number of jumps required to reach the last index, a Greedy Algorithm (equivalent to implicit Breadth-First Search) is used:
+
+1. Range Boundary Tracking:
+Instead of trying every combination of jumps recursively, we maintain the maximum reachable boundary (farthest) for all indices within the current jump range (currentEnd).
+
+2. Iterative Range Expansion:
+Traverse the array from i = 0 up to n - 2 (since reaching n - 1 means we have completed our target).
+
+At each index i, calculate the furthest reachable point: farthest = max(farthest, i + nums[i]).
+
+3. Jump Triggering:
+When index i reaches currentEnd, it indicates that all options within the current jump range have been explored.
+We must commit to a jump: increment jumps by 1 and update currentEnd = farthest.
+If currentEnd reaches or exceeds n - 1, we can break early as the target is guaranteed to be reached.
+
+---
+
+## 📊 Complexity Analysis
+
+* **Time Complexity:**  $O(N)$ — Where $N$ is the length of nums. The array is traversed in a single linear pass.
+* **Space Complexity:** $O(1)$ — The algorithm uses constant auxiliary memory (jumps, currentEnd, farthest).
+
+---
