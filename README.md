@@ -365,3 +365,48 @@ If currentEnd reaches or exceeds n - 1, we can break early as the target is guar
 * **Space Complexity:** $O(1)$ — The algorithm uses constant auxiliary memory (jumps, currentEnd, farthest).
 
 ---
+
+# Problem 11: LeetCode 72 - Edit Distance
+
+## 📝 Problem Description
+Given two strings word1 and word2, return the minimum number of operations required to convert word1 to word2.
+
+You have the following three operations permitted on a word:
+Insert a character
+Delete a character
+Replace a character
+
+### Constraints
+0 <= word1.length, word2.length <= 500
+word1 and word2 consist of lowercase English letters.
+
+---
+
+## 💡 Algorithmic Approach
+
+To solve the Edit Distance problem efficiently, a Bottom-Up Dynamic Programming (DP) approach is utilized. We construct a 2D grid dp of size $(M + 1) \times (N + 1)$, where $M$ is the length of word1 and $N$ is the length of word2.
+Each cell dp[i][j] represents the minimum number of edit operations required to convert the prefix substring word1[0...i-1] to word2[0...j-1].
+
+Base Cases Setup:
+Converting an empty word1 to word2[0...j-1] requires $j$ insertions: dp[0][j] = j.
+Converting word1[0...i-1] to an empty word2 requires $i$ deletions: dp[i][0] = i.
+
+State Transitions: For each character index pair $(i, j)$:
+Character Match (word1[i - 1] == word2[j - 1]): No operation is required; copy the value from the diagonal cell:
+dp[i][j] = dp[i - 1][j - 1]
+
+Character Mismatch (word1[i - 1] != word2[j - 1]): Take the minimum of the three allowed operations and add 1 cost:
+Insert: dp[i][j - 1] + 1
+Delete: dp[i - 1][j] + 1
+Replace: dp[i - 1][j - 1] + 1
+
+$$\text{dp}[i][j] = 1 + \min(\text{dp}[i][j - 1],\, \text{dp}[i - 1][j],\, \text{dp}[i - 1][j - 1])$$
+
+---
+
+## 📊 Complexity Analysis
+
+* **Time Complexity:**  $O(M \times N)$ — Where $M$ and $N$ are the lengths of word1 and word2. Each cell in the matrix is evaluated once in $O(1)$ time.
+* **Space Complexity:** $O(M \times N)$ — 2D array allocated to store the operation counts across string prefixes.
+
+---
