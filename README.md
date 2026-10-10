@@ -410,3 +410,49 @@ $$\text{dp}[i][j] = 1 + \min(\text{dp}[i][j - 1],\, \text{dp}[i - 1][j],\, \text
 * **Space Complexity:** $O(M \times N)$ — 2D array allocated to store the operation counts across string prefixes.
 
 ---
+
+
+# Problem 12: LeetCode 44 - Wildcard Matching
+
+## 📝 Problem Description
+Given an input string (s) and a pattern (p), implement wildcard pattern matching with support for '?' and '*' where:
+
+'?' Matches any single character.
+'*' Matches any sequence of characters (including the empty sequence).
+The matching should cover the entire input string (not partial).
+
+### Constraints
+$0 \le s.length, p.length \le 2000$
+s contains only lowercase English letters.
+p contains only lowercase English letters, '?' or '*'.
+
+---
+
+## 💡 Algorithmic Approach
+To solve the Wildcard Matching problem efficiently, a Bottom-Up Dynamic Programming (DP) approach is utilized. We construct a 2D grid dp of size $(N + 1) \times (M + 1)$, where $N$ is the length of string s and $M$ is the length of pattern p.
+Each cell dp[i][j] represents whether the prefix substring s[0...i-1] matches the pattern prefix p[0...j-1].
+
+Base Cases Setup:
+dp[0][0] = true: An empty string matches an empty pattern.
+Handling leading * characters in the pattern (e.g., p = "***"): dp[0][j] = dp[0][j - 1] if p[j - 1] == '*'.
+
+State Transitions: For each character index pair $(i, j)$:
+1. Character Match or '?' (p[j - 1] == s[i - 1] or p[j - 1] == '?'):
+Copy the value from the diagonal cell:
+$$\text{dp}[i][j] = \text{dp}[i - 1][j - 1]$$
+
+2. Wildcard * (p[j - 1] == '*'):
+* can either match an empty sequence (dp[i][j - 1]) or consume a character (dp[i - 1][j]):
+$$\text{dp}[i][j] = \text{dp}[i - 1][j] \lor \text{dp}[i][j - 1]$$
+
+3. Mismatch:
+$$\text{dp}[i][j] = \text{false}$$
+
+---
+
+## 📊 Complexity Analysis
+
+* **Time Complexity:**   $O(N \times M)$ — Where $N$ and $M$ are the lengths of string s and pattern p. Every cell in the 2D DP matrix is evaluated in constant time $O(1)$.
+* **Space Complexity:**  $O(N \times M)$ — A 2D boolean array is allocated to store the state transitions across all prefix combinations.
+
+---
