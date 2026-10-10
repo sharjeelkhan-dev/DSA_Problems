@@ -1,3 +1,5 @@
+package problems
+
 class Problem12 {
     fun isMatch(s: String, p: String): Boolean {
         val (n, m) = s.length to p.length
